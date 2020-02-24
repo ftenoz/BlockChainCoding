@@ -12,6 +12,7 @@ namespace BlockchainCoding
         public string PreviousHash { get; set; }
         public string Hash { get; set; }
         public string Data { get; set; }
+        public int Nounce { get; set; } = 0;
 
 
         public Block(DateTime timeStamp, string previousHash, string data)
@@ -21,7 +22,7 @@ namespace BlockchainCoding
             PreviousHash = previousHash;
             Data = data;
             Hash = CalculateHash();
-               
+
 
         }
 
@@ -29,12 +30,21 @@ namespace BlockchainCoding
         {
             SHA256 sha256 = SHA256.Create();
 
-            byte[] inbytes = Encoding.ASCII.GetBytes($"{TimeStamp}-{PreviousHash ?? ""}-{Data}");
+            byte[] inbytes = Encoding.ASCII.GetBytes($"{TimeStamp}-{PreviousHash ?? ""}-{Data}-{Nounce}");
             byte[] outbytes = sha256.ComputeHash(inbytes);
             return Convert.ToBase64String(outbytes);
 
         }
 
+        public void Mine(int difficulty)
+        {
+            var leadingZeros = new string('0', difficulty);
+            while (this.Hash==null||this.Hash.Substring(0,difficulty)!=leadingZeros)
+            {
+                this.Nounce++;
+                this.Hash = this.CalculateHash();
+            }
+        }
 
     }
 }

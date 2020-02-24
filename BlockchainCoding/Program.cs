@@ -8,9 +8,15 @@ namespace BlockchainCoding
         static void Main(string[] args)
         {
             Blockchain ourblockchain = new Blockchain();
+            DateTime startTime = DateTime.Now;
+
             ourblockchain.AddBlock(new Block(DateTime.Now, null, "{sender:Ferit,receiver:Deneme,amount:5}"));
             ourblockchain.AddBlock(new Block(DateTime.Now, null, "{sender:Retail,receiver:Ferit,amount:10}"));
             ourblockchain.AddBlock(new Block(DateTime.Now, null, "{sender:Ferit,receiver:Klio,amount:12}"));
+
+            DateTime finishTime = DateTime.Now;
+
+            Console.WriteLine("Süre:"+(finishTime - startTime).ToString());
 
             Console.WriteLine(JsonConvert.SerializeObject(ourblockchain,Formatting.Indented));
             Console.WriteLine("gecerli mi?" + ourblockchain.IsValid().ToString());
