@@ -23,7 +23,6 @@ namespace BlockchainCoding
             Data = data;
             Hash = CalculateHash();
 
-
         }
 
         public string CalculateHash()
